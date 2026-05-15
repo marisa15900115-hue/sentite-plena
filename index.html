@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Sentite Plena Nails</title>
+
+<style>
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(180deg, #fff5f7, #fdecef);
+  padding: 20px;
+  color: #4a3f3f;
+}
+
+.container {
+  max-width: 420px;
+  margin: auto;
+}
+
+.logo {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.logo img {
+  width: 150px;
+}
+
+h2 {
+  text-align: center;
+  color: #d45d79;
+  margin-bottom: 15px;
+}
+
+.box {
+  background: white;
+  padding: 16px;
+  margin-bottom: 14px;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(212,93,121,0.12);
+}
+
+select, input {
+  width: 100%;
+  padding: 11px;
+  margin-top: 8px;
+  border-radius: 12px;
+  border: 1px solid #f1c6cf;
+  font-size: 14px;
+  box-sizing: border-box; /* 👈 ESTO ES LA CLAVE */
+}
+
+button {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 14px;
+  margin-top: 10px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.calcular {
+  background: #d45d79;
+  color: white;
+}
+
+.whatsapp {
+  background: #25D366;
+  color: white;
+}
+
+.total {
+  text-align: center;
+  font-size: 26px;
+  margin-top: 15px;
+  font-weight: bold;
+  color: #d45d79;
+}
+
+/* 👇 IMAGEN DECORACIÓN */
+#preview img {
+  width: 100%;
+  border-radius: 12px;
+  margin-top: 10px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="logo">
+  <img src="logo.png">
+</div>
+
+<h2>Calculá tu servicio 💅</h2>
+<button onclick="abrirAyuda()" style="background:#eee; color:#d45d79;">
+  ¿Cómo funciona?
+</button>
+<div class="box">
+  <b>Servicio</b>
+  <select id="servicio">
+    <option value="16000">Belleza de Manos tradicional - $16.000</option>
+    <option value="20000">Manicuria + Esmaltado semipermanente - $20.000</option>
+    <option value="25000">Kapping + Esmaltado semipermanente  - $25.000</option>
+    <option value="18000">Belleza de Pies tradicional - $18.000</option>
+    <option value="30000">Pedicuría (Incluye exfoliacion, retirado de durezas) - $30.000</option>
+  </select>
+</div>
+
+<div class="box">
+  <b>Retiro</b><br>
+  <label><input type="checkbox" id="retiro"> Retiro completo de otra Manicura (+$10.000)</label>
+
+  <br><br>
+  <b>Retiro por uña ($1.000 c/u)</b>
+  <input type="number" id="retiroUña" min="0" max="10" value="0">
+</div>
+
+<div class="box">
+  <b>Reparaciones de uñas($500 c/u)</b>
+  <input type="number" id="reparacion" min="0" max="10" value="0">
+</div>
+
+<div class="box">
+  <b>Decoración (set completo)</b>
+<small style="display:block; margin-top:10px; color:#777;">
+✨ Los valores de los diseños son estimativos. Si tenés un diseño especial que no esta en el listado o es mucho más complejo, que el que figura en las imagenes,
+lo vemos en el momento y te paso el valor según el trabajo 💅
+</small>
+  <select id="decoracion" onchange="mostrarImagen()">
+    <option value="0" data-img="">Sin decoración</option>
+    <option value="15000" data-img="relieve.jpg">Relieve - $15.000</option>
+    <option value="15000" data-img="carey.jpg">Carey - $15.000</option>
+    <option value="15000" data-img="cromado.jpg">Cromado - $15.000</option>
+    <option value="15000" data-img="cateye.jpg">Cat Eye - $15.000</option>
+    <option value="12000" data-img="blooming.jpg">Blooming - $12.000</option>
+    <option value="10000" data-img="babyboomer.jpg">Baby Boomer - $10.000</option>
+    <option value="10000" data-img="babycolor.jpg">Baby Color - $10.000</option>
+    <option value="8000" data-img="premium.jpg">Mano alzada premium - $8.000</option>
+    <option value="7000" data-img="french.jpg">French - $7.000</option>
+    <option value="7000" data-img="strass.jpg">Strass - $7.000</option>
+    <option value="6000" data-img="express.jpg">Mano alzada express (Flor, Corazon, Puntos) - $6.000</option>
+    <option value="5000" data-img="polvoaura.jpg">Polvo Aura - $5.000</option>
+    <option value="5000" data-img="polvocromadoazul.jpg">Polvo Cromado Azul - $5.000</option>
+    <option value="5000" data-img="polvocromadorojo.jpg">Polvo Cromado Rojo - $5.000</option>
+    <option value="5000" data-img="sticker.jpg">Sticker - $5.000</option>
+  </select>
+
+  <!-- 👇 FOTO -->
+  <div id="preview"></div>
+</div>
+
+<div class="box">
+  <b>¿Solo algunas uñas?</b>
+  <input type="number" id="decoUñas" min="0" max="10" value="0">
+  <small>Se calcula proporcional ✨</small>
+</div>
+
+<button class="calcular" onclick="calcular()">Calcular total</button>
+
+<div class="total" id="resultado"></div>
+
+<button class="whatsapp" onclick="enviarWhatsApp()">Reservar por WhatsApp</button>
+
+</div>
+
+<script>
+let totalFinal = 0;
+
+function limitar(valor, max) {
+  if (isNaN(valor) || valor < 0) return 0;
+  if (valor > max) return max;
+  return valor;
+}
+
+function mostrarImagen() {
+  let select = document.getElementById("decoracion");
+  let img = select.options[select.selectedIndex].getAttribute("data-img");
+
+  let preview = document.getElementById("preview");
+
+  if (img) {
+    preview.innerHTML = "<img src='" + img + "'>";
+  } else {
+    preview.innerHTML = "";
+  }
+}
+
+function calcular() {
+  let total = 0;
+
+  let servicioTexto = document.getElementById("servicio").selectedOptions[0].text;
+  let servicio = parseInt(document.getElementById("servicio").value);
+  total += servicio;
+
+  let detalle = "• " + servicioTexto;
+
+  if (document.getElementById("retiro").checked) {
+    total += 10000;
+    detalle += "\n• Retiro completo";
+  }
+
+  let retiroUñas = limitar(parseInt(document.getElementById("retiroUña").value), 10);
+  if (retiroUñas > 0) {
+    total += retiroUñas * 1000;
+    detalle += "\n• Retiro " + retiroUñas + " uñas";
+  }
+
+  let reparacion = limitar(parseInt(document.getElementById("reparacion").value), 10);
+  if (reparacion > 0) {
+    total += reparacion * 500;
+    detalle += "\n• " + reparacion + " reparaciones";
+  }
+
+  let decoracionSelect = document.getElementById("decoracion");
+  let decoracionTexto = decoracionSelect.selectedOptions[0].text;
+  let decoracion = parseInt(decoracionSelect.value);
+
+  let decoUñas = limitar(parseInt(document.getElementById("decoUñas").value), 10);
+
+  if (decoracion > 0) {
+    if (decoUñas > 0) {
+      let valorPorUña = decoracion / 10;
+      total += decoUñas * valorPorUña;
+      detalle += "\n• " + decoracionTexto + " (" + decoUñas + " uñas)";
+    } else {
+      total += decoracion;
+      detalle += "\n• " + decoracionTexto + " (set completo)";
+    }
+  }
+
+  totalFinal = total;
+
+  document.getElementById("resultado").innerText =
+    "Total: $" + total.toLocaleString();
+
+  window.detalle = detalle;
+}
+
+function enviarWhatsApp() {
+  let mensaje = "Hola! 💅 Quiero reservar:\n\n" 
+  + window.detalle + "\n\n💲 Total: $" + totalFinal.toLocaleString();
+
+  let url = "https://wa.me/5492216680791?text=" + encodeURIComponent(mensaje);
+  window.open(url, "_blank");
+}
+function abrirAyuda() {
+  document.getElementById("modalAyuda").style.display = "flex";
+}
+
+function cerrarAyuda() {
+  document.getElementById("modalAyuda").style.display = "none";
+}
+</script>
+
+</body>
+<div id="modalAyuda" style="
+  display:none;
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.5);
+  justify-content:center;
+  align-items:center;
+  z-index:999;
+">
+
+  <div style="
+  background:white;
+  padding:30px;
+  border-radius:20px;
+  max-width:500px; /* más ancho */
+  width:95%;
+  font-size:16px; /* texto más grande */
+  box-shadow:0 10px 30px rgba(0,0,0,0.2);
+  ">
+
+    <h3 style="color:#d45d79;">¿Cómo funciona? 💅</h3>
+
+    <p>
+    • Elegís el servicio<br>
+    • Sumás retiro si necesitás en todas las uñas o por uña<br>
+    • Indicás cantidad de reparaciones<br>
+    • Elegís decoración (opcional)<br>
+    • Si es en pocas uñas la decoración, selecciona cual elegís y luego la cantidad de uñas. Esto se calcula proporcional<br><br>
+
+    ✨ Al finalizar hace click en Calcular total.
+    </p>
+
+    <button onclick="cerrarAyuda()" style="background:#d45d79; color:white;">
+      Entendido
+    </button>
+
+  </div>
+
+</div>
+</html>
